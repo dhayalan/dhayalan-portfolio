@@ -1,0 +1,9 @@
+/* src/index.css — keep it empty or just: */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
