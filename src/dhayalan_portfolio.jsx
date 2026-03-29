@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import {
   Github,
   Linkedin,
+  Twitter,
   Mail,
   Phone,
   MapPin,
@@ -123,6 +124,7 @@ const EXPERIENCE = [
     role: "Senior Engineer / Tech Lead",
     company: "HCL Technologies",
     period: "May 2020 – Present",
+    color: "#68d391",
     tags: ["NW.JS", "Node.js", "JavaScript", "Selenium"],
     desc: "Leading tooling engineering for HCL VoltMX low-code platform. Managed sprint cadence, drove rebranding from Temenos Kony, addressed security vulnerabilities and improved test coverage.",
   },
@@ -130,6 +132,7 @@ const EXPERIENCE = [
     role: "Lead Consultant",
     company: "Abacus Staffing @ IBM ISL",
     period: "Nov 2017 – May 2020",
+    color: "#63b3ed",
     tags: ["Rails 3.2", "Ruby 2", "Docker", "Jenkins"],
     desc: "Single-handedly migrated a legacy provisioning tool (SPAS) to Rails 3.2 / Ruby 2. Built custom deployment scripts, configured Jenkins and QA VMs using Docker.",
   },
@@ -137,6 +140,7 @@ const EXPERIENCE = [
     role: "Senior Team Lead",
     company: "Persistent Systems",
     period: "Feb 2017 – Nov 2017",
+    color: "#f6ad55",
     tags: ["Rails 5", "ReactJS", "PostgreSQL"],
     desc: "Led a 12-person team on OpenGov's cloud budgeting and reporting platform. Delivered features and bug fixes on Rails + React stack; created application setup documentation.",
   },
@@ -144,6 +148,7 @@ const EXPERIENCE = [
     role: "Senior Software Engineer",
     company: "Xoriant Solutions",
     period: "Dec 2015 – Feb 2017",
+    color: "#b794f4",
     tags: ["Rails 4", "AngularJS", "PostgreSQL"],
     desc: "Delivered Knox—MediaMath's revenue monitoring and reporting tool. Built channel partner report end-to-end, improved query builder performance, and implemented pagination.",
   },
@@ -151,6 +156,7 @@ const EXPERIENCE = [
     role: "Senior Analyst Programmer",
     company: "SRM Technologies",
     period: "Feb 2014 – Oct 2020",
+    color: "#fc8181",
     tags: ["Rails 3", "BrowserCMS", "Heroku", "PayPal"],
     desc: "Worked on Keep Memory Alive fundraising platform. Implemented event registration, ticketing and donation flows with PayPal SDK. Handled Heroku deployments.",
   },
@@ -158,6 +164,7 @@ const EXPERIENCE = [
     role: "Senior Software Engineer",
     company: "UnitedHealth Group",
     period: "Apr 2012 – Jul 2013",
+    color: "#81e6d9",
     tags: ["Rails 2/3", "MySQL", "Elasticsearch"],
     desc: "Maintained DPCA—a national diabetes health initiative. Handled incidents, enhancements, automated jobs, DB performance tuning and release hotfixes across 20-person team.",
   },
@@ -165,8 +172,9 @@ const EXPERIENCE = [
     role: "Software Engineer",
     company: "Qatalys / Anubavam / Amshuhu",
     period: "Feb 2008 – Mar 2012",
-    tags: ["Ruby on Rails", "MySQL", "SVN", "GIT"],
-    desc: "Early career roles building web apps: Rebate Application, online deal sites, social networks, video game trading portals and internal bug-trackers. Honed full-stack Rails fundamentals.",
+    color: "#fbb6ce",
+    tags: ["Ruby on Rails", "MySQL", "SVN"],
+    desc: "Early career roles building web apps: online deal sites, social networks, video game trading portals and internal bug-trackers. Honed full-stack Rails fundamentals.",
   },
 ];
 
@@ -605,6 +613,32 @@ export default function Portfolio() {
                 <Linkedin size={15} /> LinkedIn
               </a>
               <a
+                href="https://twitter.com/Dhayalan"
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "10px 20px",
+                  borderRadius: 8,
+                  background: "rgba(29,161,242,0.1)",
+                  border: "1px solid rgba(29,161,242,0.3)",
+                  color: "#1da1f2",
+                  textDecoration: "none",
+                  fontSize: 13,
+                  transition: "all 0.2s",
+                }}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.background = "rgba(29,161,242,0.2)")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.background = "rgba(29,161,242,0.1)")
+                }
+              >
+                <Twitter size={15} /> Twitter
+              </a>
+              <a
                 href="https://www.credential.net/ebad860b-fcbe-4966-85a3-50fc9e56d7c6"
                 target="_blank"
                 rel="noreferrer"
@@ -850,7 +884,7 @@ export default function Portfolio() {
                       <div
                         style={{
                           fontSize: 13,
-                          color: "#63b3ed",
+                          color: exp.color,
                           marginBottom: 10,
                           display: "flex",
                           alignItems: "center",
@@ -1303,9 +1337,9 @@ export default function Portfolio() {
                   gap: 10,
                   padding: "14px 26px",
                   borderRadius: 10,
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  color: "#a0aec0",
+                  background: "rgba(29,161,242,0.1)",
+                  border: "1px solid rgba(29,161,242,0.3)",
+                  color: "#1da1f2",
                   textDecoration: "none",
                   fontSize: 14,
                   fontFamily: "'JetBrains Mono', monospace",
@@ -1319,6 +1353,33 @@ export default function Portfolio() {
                 }
               >
                 <Phone size={16} /> +91 93446 26897
+              </a>
+              <a
+                href="https://twitter.com/Dhayalan"
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  padding: "14px 26px",
+                  borderRadius: 10,
+                  background: "rgba(29,161,242,0.1)",
+                  border: "1px solid rgba(29,161,242,0.3)",
+                  color: "#1da1f2",
+                  textDecoration: "none",
+                  fontSize: 14,
+                  fontFamily: "'JetBrains Mono', monospace",
+                  transition: "all 0.2s",
+                }}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.background = "rgba(29,161,242,0.2)")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.background = "rgba(29,161,242,0.1)")
+                }
+              >
+                <Twitter size={16} /> @Dhayalan
               </a>
             </div>
           </FadeIn>
@@ -1356,7 +1417,7 @@ export default function Portfolio() {
               fontFamily: "'JetBrains Mono', monospace",
             }}
           >
-            © 2025 Dhayalan Isabella Jackulin Karunakaran
+            © 2026 Dhayalan Isabella Jackulin Karunakaran
           </span>
           <span
             style={{
