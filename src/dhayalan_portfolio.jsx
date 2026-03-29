@@ -275,10 +275,9 @@ export default function Portfolio() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [typed, setTyped] = useState("");
   const titles = [
-    "Full Stack Rails Engineer",
-    "Blockchain Developer",
-    "Senior Technical Lead",
-    "18+ Years Experience",
+    "Software Craftsman · 18+ Years · Full Stack & Blockchain",
+    "Senior Engineer · From Ruby on Rails to the Blockchain",
+    "Full Stack & Blockchain Engineer · Tech Lead",
   ];
   const [titleIdx, setTitleIdx] = useState(0);
 
@@ -584,7 +583,7 @@ export default function Portfolio() {
                   (e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)")
                 }
               >
-                <Github size={15} /> GitHub
+                <Github size={15} /> Dhayalan
               </a>
               <a
                 href="https://www.linkedin.com/in/dhayalan-karunakaran/"
@@ -610,7 +609,7 @@ export default function Portfolio() {
                   (e.currentTarget.style.background = "rgba(99,179,237,0.1)")
                 }
               >
-                <Linkedin size={15} /> LinkedIn
+                <Linkedin size={15} /> dhayalan-karunakaran
               </a>
               <a
                 href="https://twitter.com/Dhayalan"
@@ -636,7 +635,7 @@ export default function Portfolio() {
                   (e.currentTarget.style.background = "rgba(29,161,242,0.1)")
                 }
               >
-                <Twitter size={15} /> Twitter
+                <Twitter size={15} /> Dhayalan
               </a>
               <a
                 href="https://www.credential.net/ebad860b-fcbe-4966-85a3-50fc9e56d7c6"
@@ -1380,6 +1379,33 @@ export default function Portfolio() {
                 }
               >
                 <Twitter size={16} /> @Dhayalan
+              </a>
+              <a
+                href="https://linkedin.com/in/dhayalan-karunakaran"
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  padding: "14px 26px",
+                  borderRadius: 10,
+                  background: "rgba(29,161,242,0.1)",
+                  border: "1px solid rgba(29,161,242,0.3)",
+                  color: "#1da1f2",
+                  textDecoration: "none",
+                  fontSize: 14,
+                  fontFamily: "'JetBrains Mono', monospace",
+                  transition: "all 0.2s",
+                }}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.background = "rgba(10,102,194,0.2)")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.background = "rgba(10,102,194,0.1)")
+                }
+              >
+                <Linkedin size={16} /> dhayalan-karunakaran
               </a>
             </div>
           </FadeIn>
