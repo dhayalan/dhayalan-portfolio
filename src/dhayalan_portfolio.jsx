@@ -8,7 +8,6 @@ import {
   MapPin,
   ExternalLink,
   Code2,
-  Database,
   Layers,
   Cpu,
   Award,
@@ -19,6 +18,8 @@ import {
   Zap,
   Shield,
   Globe,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 const NAV_LINKS = [
@@ -271,6 +272,34 @@ function FadeIn({ children, delay = 0, className = "" }) {
 }
 
 export default function Portfolio() {
+  const [theme, setTheme] = useState("dark");
+  const isDark = theme === "dark";
+
+  // ─── Token palette ───────────────────────────────────────────────
+  const t = {
+    bg1: isDark ? "#0a0c10" : "#f8fafc",
+    bg2: isDark ? "#0d1117" : "#f1f5f9",
+    card: isDark ? "#0a0c10" : "#ffffff",
+    border: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.08)",
+    text: isDark ? "#e2e8f0" : "#0f172a",
+    textMuted: isDark ? "#718096" : "#475569",
+    textFaint: isDark ? "#4a5568" : "#94a3b8",
+    accent: isDark ? "#63b3ed" : "#2563eb",
+    accentRgb: isDark ? "99,179,237" : "37,99,235",
+    navBg: isDark ? "rgba(10,12,16,0.80)" : "rgba(248,250,252,0.85)",
+    navBorder: isDark ? "rgba(99,179,237,0.12)" : "rgba(37,99,235,0.15)",
+    gridLine: isDark ? "rgba(99,179,237,0.03)" : "rgba(37,99,235,0.05)",
+    scrollBar: isDark ? "#2d3748" : "#cbd5e0",
+    dotGlow: isDark ? "#63b3ed" : "#2563eb",
+    tagBg: isDark ? "rgba(99,179,237,0.10)" : "rgba(37,99,235,0.08)",
+    tagBorder: isDark ? "rgba(99,179,237,0.20)" : "rgba(37,99,235,0.20)",
+    heroName: isDark ? "#fff" : "#0f172a",
+    statNum: isDark ? "#fff" : "#0f172a",
+    footerTxt: isDark ? "#2d3748" : "#94a3b8",
+    cardBorder: (color) =>
+      isDark ? `1px solid rgba(${color},0.2)` : `1px solid rgba(${color},0.35)`,
+  };
+
   const [activeSection, setActiveSection] = useState("about");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [typed, setTyped] = useState("");
@@ -283,18 +312,13 @@ export default function Portfolio() {
 
   useEffect(() => {
     let i = 0,
-      current = titles[titleIdx],
-      forward = true;
+      current = titles[titleIdx];
     const id = setInterval(() => {
-      if (forward) {
-        setTyped(current.slice(0, i + 1));
-        i++;
-        if (i === current.length) {
-          forward = false;
-          setTimeout(() => {}, 1200);
-          clearInterval(id);
-          setTimeout(() => setTitleIdx((p) => (p + 1) % titles.length), 2000);
-        }
+      setTyped(current.slice(0, i + 1));
+      i++;
+      if (i === current.length) {
+        clearInterval(id);
+        setTimeout(() => setTitleIdx((p) => (p + 1) % titles.length), 2000);
       }
     }, 70);
     return () => clearInterval(id);
@@ -323,36 +347,39 @@ export default function Portfolio() {
     <div
       style={{
         fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
-        background: "#0a0c10",
-        color: "#e2e8f0",
+        background: t.bg1,
+        color: t.text,
         minHeight: "100vh",
         overflowX: "hidden",
+        transition: "background 0.3s, color 0.3s",
       }}
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;700;800&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #0a0c10; } ::-webkit-scrollbar-thumb { background: #2d3748; border-radius: 2px; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: ${t.bg1}; }
+        ::-webkit-scrollbar-thumb { background: ${t.scrollBar}; border-radius: 2px; }
         html { scroll-behavior: smooth; }
-        .nav-link { cursor: pointer; padding: 6px 12px; border-radius: 6px; font-size: 12px; letter-spacing: 0.08em; transition: all 0.2s; color: #a0aec0; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
-        .nav-link:hover, .nav-link.active { color: #63b3ed; background: rgba(99,179,237,0.08); }
+        .nav-link { cursor: pointer; padding: 6px 12px; border-radius: 6px; font-size: 12px; letter-spacing: 0.08em; transition: all 0.2s; color: ${t.textMuted}; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+        .nav-link:hover, .nav-link.active { color: ${t.accent}; background: rgba(${t.accentRgb},0.08); }
         .card-hover { transition: transform 0.3s, box-shadow 0.3s; }
-        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
-        .tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; background: rgba(99,179,237,0.1); color: #63b3ed; border: 1px solid rgba(99,179,237,0.2); margin: 3px 2px; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,${isDark ? "0.5" : "0.12"}); }
+        .tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; background: ${t.tagBg}; color: ${t.accent}; border: 1px solid ${t.tagBorder}; margin: 3px 2px; }
         .skill-pill { display: inline-block; padding: 5px 14px; border-radius: 6px; font-size: 11px; font-weight: 600; margin: 4px; border: 1px solid; cursor: default; transition: all 0.2s; }
         .skill-pill:hover { transform: scale(1.05); }
-        .timeline-dot { width: 12px; height: 12px; border-radius: 50%; background: #63b3ed; box-shadow: 0 0 12px #63b3ed; flex-shrink: 0; margin-top: 6px; }
-        .glow-text { text-shadow: 0 0 40px rgba(99,179,237,0.4); }
-        .section-label { font-size: 11px; letter-spacing: 0.2em; color: #63b3ed; text-transform: uppercase; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .section-label::before { content: '//'; color: #4a5568; }
-        .cursor { display: inline-block; width: 2px; height: 1.1em; background: #63b3ed; margin-left: 3px; animation: blink 0.8s infinite; vertical-align: middle; }
+        .timeline-dot { width: 12px; height: 12px; border-radius: 50%; background: ${t.dotGlow}; box-shadow: 0 0 12px ${t.dotGlow}; flex-shrink: 0; margin-top: 6px; }
+        .glow-text { text-shadow: 0 0 40px rgba(${t.accentRgb},0.3); }
+        .section-label { font-size: 11px; letter-spacing: 0.2em; color: ${t.accent}; text-transform: uppercase; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .section-label::before { content: '//'; color: ${t.textFaint}; }
+        .cursor { display: inline-block; width: 2px; height: 1.1em; background: ${t.accent}; margin-left: 3px; animation: blink 0.8s infinite; vertical-align: middle; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-        .grid-bg { background-image: linear-gradient(rgba(99,179,237,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(99,179,237,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+        @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
         @media (max-width: 768px) { .desktop-nav { display: none !important; } .mobile-menu-btn { display: flex !important; } }
         @media (min-width: 769px) { .mobile-menu-btn { display: none !important; } }
       `}</style>
 
-      {/* NAV */}
+      {/* ── NAV ── */}
       <header
         style={{
           position: "fixed",
@@ -360,10 +387,11 @@ export default function Portfolio() {
           left: 0,
           right: 0,
           zIndex: 100,
-          background: "rgba(10,12,16,0.75)",
+          background: t.navBg,
           backdropFilter: "blur(16px)",
-          borderBottom: "1px solid rgba(99,179,237,0.1)",
+          borderBottom: `1px solid ${t.navBorder}`,
           padding: "0 24px",
+          transition: "background 0.3s, border-color 0.3s",
         }}
       >
         <div
@@ -376,6 +404,7 @@ export default function Portfolio() {
             height: 60,
           }}
         >
+          {/* Logo */}
           <div
             style={{
               display: "flex",
@@ -385,19 +414,21 @@ export default function Portfolio() {
             }}
             onClick={() => scrollTo("about")}
           >
-            <Terminal size={18} color="#63b3ed" />
+            <Terminal size={18} color={t.accent} />
             <span
               style={{
                 fontFamily: "'Syne', sans-serif",
                 fontWeight: 800,
                 fontSize: 16,
-                color: "#fff",
+                color: t.text,
                 letterSpacing: "-0.02em",
               }}
             >
-              dhayalan<span style={{ color: "#63b3ed" }}>.dev</span>
+              dhayalan<span style={{ color: t.accent }}>.dev</span>
             </span>
           </div>
+
+          {/* Desktop nav */}
           <nav className="desktop-nav" style={{ display: "flex", gap: 4 }}>
             {NAV_LINKS.map((id) => (
               <span
@@ -409,29 +440,58 @@ export default function Portfolio() {
               </span>
             ))}
           </nav>
-          <button
-            className="mobile-menu-btn"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            style={{
-              background: "none",
-              border: "1px solid rgba(99,179,237,0.3)",
-              borderRadius: 6,
-              color: "#63b3ed",
-              padding: "6px 10px",
-              cursor: "pointer",
-              display: "none",
-              alignItems: "center",
-            }}
-          >
-            ☰
-          </button>
+
+          {/* Right controls */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {/* Theme toggle */}
+            <button
+              onClick={() => setTheme(isDark ? "light" : "dark")}
+              title="Toggle theme"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 36,
+                height: 36,
+                borderRadius: 8,
+                background: isDark
+                  ? "rgba(99,179,237,0.08)"
+                  : "rgba(37,99,235,0.08)",
+                border: `1px solid ${t.navBorder}`,
+                color: t.accent,
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+            >
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+
+            {/* Mobile hamburger */}
+            <button
+              className="mobile-menu-btn"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              style={{
+                background: "none",
+                border: `1px solid ${t.navBorder}`,
+                borderRadius: 6,
+                color: t.accent,
+                padding: "6px 10px",
+                cursor: "pointer",
+                display: "none",
+                alignItems: "center",
+              }}
+            >
+              ☰
+            </button>
+          </div>
         </div>
+
         {mobileOpen && (
           <div
             style={{
-              background: "rgba(10,12,16,0.97)",
+              background: t.navBg,
               padding: "12px 24px 20px",
-              borderTop: "1px solid rgba(99,179,237,0.1)",
+              borderTop: `1px solid ${t.navBorder}`,
             }}
           >
             {NAV_LINKS.map((id) => (
@@ -448,10 +508,9 @@ export default function Portfolio() {
         )}
       </header>
 
-      {/* HERO */}
+      {/* ── HERO ── */}
       <section
         id="about"
-        className="grid-bg"
         style={{
           minHeight: "100vh",
           display: "flex",
@@ -460,6 +519,10 @@ export default function Portfolio() {
           padding: "120px 24px 80px",
           position: "relative",
           overflow: "hidden",
+          backgroundImage: `linear-gradient(${t.gridLine} 1px, transparent 1px), linear-gradient(90deg, ${t.gridLine} 1px, transparent 1px)`,
+          backgroundSize: "40px 40px",
+          backgroundColor: t.bg1,
+          transition: "background-color 0.3s",
         }}
       >
         <div
@@ -470,8 +533,7 @@ export default function Portfolio() {
             width: 400,
             height: 400,
             borderRadius: "50%",
-            background:
-              "radial-gradient(circle, rgba(99,179,237,0.06) 0%, transparent 70%)",
+            background: `radial-gradient(circle, rgba(${t.accentRgb},0.06) 0%, transparent 70%)`,
             pointerEvents: "none",
           }}
         />
@@ -488,6 +550,7 @@ export default function Portfolio() {
             pointerEvents: "none",
           }}
         />
+
         <div style={{ maxWidth: 1200, margin: "0 auto", width: "100%" }}>
           <FadeIn delay={0}>
             <div className="section-label">
@@ -496,34 +559,36 @@ export default function Portfolio() {
           </FadeIn>
           <FadeIn delay={0.1}>
             <h1
+              className="glow-text"
               style={{
                 fontFamily: "'Syne', sans-serif",
                 fontSize: "clamp(42px, 7vw, 88px)",
                 fontWeight: 800,
                 lineHeight: 1.05,
                 letterSpacing: "-0.03em",
-                color: "#fff",
+                color: t.heroName,
                 marginBottom: 8,
               }}
-              className="glow-text"
             >
               Dhayalan
               <br />
-              <span style={{ color: "#63b3ed" }}>I J K</span>
+              <span style={{ color: t.accent }}>I J K</span>
             </h1>
           </FadeIn>
           <FadeIn delay={0.2}>
             <div
               style={{
                 fontSize: "clamp(14px, 2.5vw, 20px)",
-                color: "#a0aec0",
+                color: t.textMuted,
                 marginBottom: 32,
                 minHeight: "1.6em",
                 fontFamily: "'JetBrains Mono', monospace",
               }}
             >
-              <span style={{ color: "#4a5568" }}>$</span>{" "}
-              <span style={{ color: "#68d391" }}>{typed}</span>
+              <span style={{ color: t.textFaint }}>$</span>{" "}
+              <span style={{ color: isDark ? "#68d391" : "#16a34a" }}>
+                {typed}
+              </span>
               <span className="cursor" />
             </div>
           </FadeIn>
@@ -533,17 +598,15 @@ export default function Portfolio() {
                 maxWidth: 580,
                 fontSize: 15,
                 lineHeight: 1.85,
-                color: "#718096",
+                color: t.textMuted,
                 marginBottom: 40,
               }}
             >
               Seasoned software professional with{" "}
-              <span style={{ color: "#e2e8f0", fontWeight: 600 }}>
-                18+ years
-              </span>{" "}
+              <span style={{ color: t.text, fontWeight: 600 }}>18+ years</span>{" "}
               building scalable web applications and enterprise platforms. 12+
               years of Ruby on Rails expertise, certified{" "}
-              <span style={{ color: "#e2e8f0", fontWeight: 600 }}>
+              <span style={{ color: t.text, fontWeight: 600 }}>
                 Blockchain Professional
               </span>{" "}
               from IIIT Bangalore, and a proven track record leading teams
@@ -569,18 +632,20 @@ export default function Portfolio() {
                   gap: 8,
                   padding: "10px 20px",
                   borderRadius: 8,
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  color: "#e2e8f0",
+                  background: isDark
+                    ? "rgba(255,255,255,0.05)"
+                    : "rgba(0,0,0,0.04)",
+                  border: `1px solid ${t.border}`,
+                  color: t.text,
                   textDecoration: "none",
                   fontSize: 13,
                   transition: "all 0.2s",
                 }}
                 onMouseOver={(e) =>
-                  (e.currentTarget.style.borderColor = "#63b3ed")
+                  (e.currentTarget.style.borderColor = t.accent)
                 }
                 onMouseOut={(e) =>
-                  (e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)")
+                  (e.currentTarget.style.borderColor = t.border)
                 }
               >
                 <Github size={15} /> Dhayalan
@@ -595,18 +660,18 @@ export default function Portfolio() {
                   gap: 8,
                   padding: "10px 20px",
                   borderRadius: 8,
-                  background: "rgba(99,179,237,0.1)",
-                  border: "1px solid rgba(99,179,237,0.3)",
-                  color: "#63b3ed",
+                  background: `rgba(${t.accentRgb},0.1)`,
+                  border: `1px solid rgba(${t.accentRgb},0.3)`,
+                  color: t.accent,
                   textDecoration: "none",
                   fontSize: 13,
                   transition: "all 0.2s",
                 }}
                 onMouseOver={(e) =>
-                  (e.currentTarget.style.background = "rgba(99,179,237,0.2)")
+                  (e.currentTarget.style.background = `rgba(${t.accentRgb},0.2)`)
                 }
                 onMouseOut={(e) =>
-                  (e.currentTarget.style.background = "rgba(99,179,237,0.1)")
+                  (e.currentTarget.style.background = `rgba(${t.accentRgb},0.1)`)
                 }
               >
                 <Linkedin size={15} /> dhayalan-karunakaran
@@ -679,7 +744,7 @@ export default function Portfolio() {
                       fontFamily: "'Syne', sans-serif",
                       fontWeight: 800,
                       fontSize: 32,
-                      color: "#fff",
+                      color: t.statNum,
                     }}
                   >
                     {num}
@@ -687,7 +752,7 @@ export default function Portfolio() {
                   <div
                     style={{
                       fontSize: 11,
-                      color: "#4a5568",
+                      color: t.textFaint,
                       letterSpacing: "0.1em",
                       textTransform: "uppercase",
                     }}
@@ -702,23 +767,27 @@ export default function Portfolio() {
             onClick={() => scrollTo("expertise")}
             style={{
               cursor: "pointer",
-              color: "#4a5568",
+              color: t.textFaint,
               position: "absolute",
               bottom: 40,
               left: "50%",
               transform: "translateX(-50%)",
+              animation: "bounce 2s infinite",
             }}
           >
             <ChevronDown size={20} />
           </div>
         </div>
-        <style>{`@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }`}</style>
       </section>
 
-      {/* EXPERTISE */}
+      {/* ── EXPERTISE ── */}
       <section
         id="expertise"
-        style={{ padding: "100px 24px", background: "#0d1117" }}
+        style={{
+          padding: "100px 24px",
+          background: t.bg2,
+          transition: "background 0.3s",
+        }}
       >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <FadeIn>
@@ -728,7 +797,7 @@ export default function Portfolio() {
                 fontFamily: "'Syne', sans-serif",
                 fontWeight: 800,
                 fontSize: "clamp(28px, 4vw, 48px)",
-                color: "#fff",
+                color: t.text,
                 marginBottom: 12,
                 letterSpacing: "-0.02em",
               }}
@@ -737,7 +806,7 @@ export default function Portfolio() {
             </h2>
             <p
               style={{
-                color: "#4a5568",
+                color: t.textFaint,
                 fontSize: 14,
                 marginBottom: 56,
                 maxWidth: 480,
@@ -754,67 +823,87 @@ export default function Portfolio() {
               gap: 20,
             }}
           >
-            {EXPERTISE.map((ex, i) => (
-              <FadeIn key={ex.title} delay={i * 0.08}>
-                <div
-                  className="card-hover"
-                  style={{
-                    padding: 28,
-                    borderRadius: 12,
-                    background: "#0a0c10",
-                    border: `1px solid rgba(${ex.color === "#e53e3e" ? "229,62,62" : ex.color === "#3182ce" ? "49,130,206" : ex.color === "#805ad5" ? "128,90,213" : ex.color === "#319795" ? "49,151,149" : ex.color === "#d69e2e" ? "214,158,46" : "56,161,105"},0.2)`,
-                    position: "relative",
-                    overflow: "hidden",
-                  }}
-                >
+            {EXPERTISE.map((ex, i) => {
+              const rgbMap = {
+                "#e53e3e": "229,62,62",
+                "#3182ce": "49,130,206",
+                "#805ad5": "128,90,213",
+                "#319795": "49,151,149",
+                "#d69e2e": "214,158,46",
+                "#38a169": "56,161,105",
+              };
+              const rgb = rgbMap[ex.color] || "99,179,237";
+              return (
+                <FadeIn key={ex.title} delay={i * 0.08}>
                   <div
+                    className="card-hover"
                     style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: 2,
-                      background: ex.color,
-                      opacity: 0.7,
-                    }}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 12,
-                      marginBottom: 14,
-                      color: ex.color,
+                      padding: 28,
+                      borderRadius: 12,
+                      background: t.card,
+                      border: `1px solid rgba(${rgb},${isDark ? "0.2" : "0.3"})`,
+                      position: "relative",
+                      overflow: "hidden",
+                      transition: "background 0.3s",
                     }}
                   >
-                    {ex.icon}
-                    <span
+                    <div
                       style={{
-                        fontFamily: "'Syne', sans-serif",
-                        fontWeight: 700,
-                        fontSize: 16,
-                        color: "#fff",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: 2,
+                        background: ex.color,
+                        opacity: 0.7,
+                      }}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        marginBottom: 14,
+                        color: ex.color,
                       }}
                     >
-                      {ex.title}
-                    </span>
+                      {ex.icon}
+                      <span
+                        style={{
+                          fontFamily: "'Syne', sans-serif",
+                          fontWeight: 700,
+                          fontSize: 16,
+                          color: t.text,
+                        }}
+                      >
+                        {ex.title}
+                      </span>
+                    </div>
+                    <p
+                      style={{
+                        fontSize: 13,
+                        lineHeight: 1.8,
+                        color: t.textMuted,
+                      }}
+                    >
+                      {ex.desc}
+                    </p>
                   </div>
-                  <p
-                    style={{ fontSize: 13, lineHeight: 1.8, color: "#718096" }}
-                  >
-                    {ex.desc}
-                  </p>
-                </div>
-              </FadeIn>
-            ))}
+                </FadeIn>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* EXPERIENCE TIMELINE */}
+      {/* ── EXPERIENCE TIMELINE ── */}
       <section
         id="experience"
-        style={{ padding: "100px 24px", background: "#0a0c10" }}
+        style={{
+          padding: "100px 24px",
+          background: t.bg1,
+          transition: "background 0.3s",
+        }}
       >
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <FadeIn>
@@ -824,7 +913,7 @@ export default function Portfolio() {
                 fontFamily: "'Syne', sans-serif",
                 fontWeight: 800,
                 fontSize: "clamp(28px, 4vw, 48px)",
-                color: "#fff",
+                color: t.text,
                 marginBottom: 60,
                 letterSpacing: "-0.02em",
               }}
@@ -840,15 +929,14 @@ export default function Portfolio() {
                 top: 0,
                 bottom: 0,
                 width: 1,
-                background:
-                  "linear-gradient(to bottom, #63b3ed, rgba(99,179,237,0.1))",
+                background: `linear-gradient(to bottom, ${t.accent}, rgba(${t.accentRgb},0.1))`,
               }}
             />
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
               {EXPERIENCE.map((exp, i) => (
                 <FadeIn key={i} delay={i * 0.07}>
                   <div style={{ display: "flex", gap: 28, paddingBottom: 40 }}>
-                    <div className="timeline-dot" style={{ marginTop: 8 }} />
+                    <div className="timeline-dot" />
                     <div style={{ flex: 1, paddingBottom: 8 }}>
                       <div
                         style={{
@@ -864,7 +952,7 @@ export default function Portfolio() {
                             fontFamily: "'Syne', sans-serif",
                             fontWeight: 700,
                             fontSize: 17,
-                            color: "#e2e8f0",
+                            color: t.text,
                           }}
                         >
                           {exp.role}
@@ -872,7 +960,7 @@ export default function Portfolio() {
                         <span
                           style={{
                             fontSize: 11,
-                            color: "#4a5568",
+                            color: t.textFaint,
                             fontFamily: "'JetBrains Mono', monospace",
                             marginTop: 3,
                           }}
@@ -895,7 +983,7 @@ export default function Portfolio() {
                       <p
                         style={{
                           fontSize: 13,
-                          color: "#718096",
+                          color: t.textMuted,
                           lineHeight: 1.8,
                           marginBottom: 10,
                         }}
@@ -903,9 +991,9 @@ export default function Portfolio() {
                         {exp.desc}
                       </p>
                       <div>
-                        {exp.tags.map((t) => (
-                          <span key={t} className="tag">
-                            {t}
+                        {exp.tags.map((tag) => (
+                          <span key={tag} className="tag">
+                            {tag}
                           </span>
                         ))}
                       </div>
@@ -918,10 +1006,14 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* PROJECTS */}
+      {/* ── PROJECTS ── */}
       <section
         id="projects"
-        style={{ padding: "100px 24px", background: "#0d1117" }}
+        style={{
+          padding: "100px 24px",
+          background: t.bg2,
+          transition: "background 0.3s",
+        }}
       >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <FadeIn>
@@ -931,7 +1023,7 @@ export default function Portfolio() {
                 fontFamily: "'Syne', sans-serif",
                 fontWeight: 800,
                 fontSize: "clamp(28px, 4vw, 48px)",
-                color: "#fff",
+                color: t.text,
                 marginBottom: 12,
                 letterSpacing: "-0.02em",
               }}
@@ -940,13 +1032,13 @@ export default function Portfolio() {
             </h2>
             <p
               style={{
-                color: "#4a5568",
+                color: t.textFaint,
                 fontSize: 14,
                 marginBottom: 56,
                 maxWidth: 480,
               }}
             >
-              A curated selection of impactful systems built across 17 years of
+              A curated selection of impactful systems built across 18 years of
               professional engineering.
             </p>
           </FadeIn>
@@ -964,13 +1056,14 @@ export default function Portfolio() {
                   style={{
                     padding: 24,
                     borderRadius: 12,
-                    background: "#0a0c10",
-                    border: "1px solid rgba(255,255,255,0.06)",
+                    background: t.card,
+                    border: `1px solid ${t.border}`,
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
                     position: "relative",
                     overflow: "hidden",
+                    transition: "background 0.3s",
                   }}
                 >
                   <div
@@ -980,7 +1073,7 @@ export default function Portfolio() {
                       left: 0,
                       width: "100%",
                       height: "100%",
-                      background: `radial-gradient(ellipse at top left, ${proj.color}22 0%, transparent 60%)`,
+                      background: `radial-gradient(ellipse at top left, ${proj.color}${isDark ? "22" : "18"} 0%, transparent 60%)`,
                       pointerEvents: "none",
                     }}
                   />
@@ -998,7 +1091,7 @@ export default function Portfolio() {
                           fontFamily: "'Syne', sans-serif",
                           fontWeight: 700,
                           fontSize: 15,
-                          color: "#e2e8f0",
+                          color: t.text,
                           flex: 1,
                         }}
                       >
@@ -1006,14 +1099,14 @@ export default function Portfolio() {
                       </h3>
                       <ExternalLink
                         size={13}
-                        color="#4a5568"
+                        color={t.textFaint}
                         style={{ marginTop: 3, flexShrink: 0 }}
                       />
                     </div>
                     <div
                       style={{
                         fontSize: 11,
-                        color: "#4a5568",
+                        color: t.textFaint,
                         letterSpacing: "0.06em",
                       }}
                     >
@@ -1023,7 +1116,7 @@ export default function Portfolio() {
                   <p
                     style={{
                       fontSize: 12,
-                      color: "#718096",
+                      color: t.textMuted,
                       lineHeight: 1.8,
                       marginBottom: 14,
                       flex: 1,
@@ -1032,9 +1125,9 @@ export default function Portfolio() {
                     {proj.desc}
                   </p>
                   <div>
-                    {proj.tags.map((t) => (
-                      <span key={t} className="tag">
-                        {t}
+                    {proj.tags.map((tag) => (
+                      <span key={tag} className="tag">
+                        {tag}
                       </span>
                     ))}
                   </div>
@@ -1045,10 +1138,14 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* SKILLS */}
+      {/* ── SKILLS ── */}
       <section
         id="skills"
-        style={{ padding: "100px 24px", background: "#0a0c10" }}
+        style={{
+          padding: "100px 24px",
+          background: t.bg1,
+          transition: "background 0.3s",
+        }}
       >
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <FadeIn>
@@ -1058,7 +1155,7 @@ export default function Portfolio() {
                 fontFamily: "'Syne', sans-serif",
                 fontWeight: 800,
                 fontSize: "clamp(28px, 4vw, 48px)",
-                color: "#fff",
+                color: t.text,
                 marginBottom: 60,
                 letterSpacing: "-0.02em",
               }}
@@ -1071,31 +1168,31 @@ export default function Portfolio() {
               Backend: {
                 bg: "rgba(229,62,62,0.08)",
                 border: "rgba(229,62,62,0.25)",
-                text: "#fc8181",
+                text: isDark ? "#fc8181" : "#c53030",
                 hdr: "#e53e3e",
               },
               Frontend: {
-                bg: "rgba(49,130,206,0.08)",
-                border: "rgba(49,130,206,0.25)",
-                text: "#63b3ed",
-                hdr: "#3182ce",
+                bg: `rgba(${t.accentRgb},0.08)`,
+                border: `rgba(${t.accentRgb},0.25)`,
+                text: t.accent,
+                hdr: isDark ? "#3182ce" : "#2563eb",
               },
               Blockchain: {
                 bg: "rgba(128,90,213,0.08)",
                 border: "rgba(128,90,213,0.25)",
-                text: "#b794f4",
+                text: isDark ? "#b794f4" : "#6b46c1",
                 hdr: "#805ad5",
               },
               Databases: {
                 bg: "rgba(49,151,149,0.08)",
                 border: "rgba(49,151,149,0.25)",
-                text: "#81e6d9",
+                text: isDark ? "#81e6d9" : "#2c7a7b",
                 hdr: "#319795",
               },
               DevOps: {
                 bg: "rgba(56,161,105,0.08)",
                 border: "rgba(56,161,105,0.25)",
-                text: "#9ae6b4",
+                text: isDark ? "#9ae6b4" : "#276749",
                 hdr: "#38a169",
               },
             };
@@ -1152,9 +1249,10 @@ export default function Portfolio() {
                 marginTop: 48,
                 padding: "28px 32px",
                 borderRadius: 12,
-                background:
-                  "linear-gradient(135deg, rgba(99,179,237,0.08), rgba(128,90,213,0.06))",
-                border: "1px solid rgba(99,179,237,0.2)",
+                background: isDark
+                  ? "linear-gradient(135deg, rgba(99,179,237,0.08), rgba(128,90,213,0.06))"
+                  : "linear-gradient(135deg, rgba(37,99,235,0.06), rgba(128,90,213,0.05))",
+                border: `1px solid rgba(${t.accentRgb},0.2)`,
                 display: "flex",
                 justifyContent: "space-between",
                 flexWrap: "wrap",
@@ -1165,7 +1263,7 @@ export default function Portfolio() {
                 <div
                   style={{
                     fontSize: 12,
-                    color: "#4a5568",
+                    color: t.textFaint,
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
                     marginBottom: 6,
@@ -1177,13 +1275,13 @@ export default function Portfolio() {
                   style={{
                     fontSize: 15,
                     fontWeight: 600,
-                    color: "#e2e8f0",
+                    color: t.text,
                     marginBottom: 2,
                   }}
                 >
                   Advanced Certificate in Blockchain Technology
                 </div>
-                <div style={{ fontSize: 12, color: "#63b3ed" }}>
+                <div style={{ fontSize: 12, color: t.accent }}>
                   IIIT Bangalore & upGrad · Dec 2022 – Aug 2023 · CGPA 3.59/4
                 </div>
               </div>
@@ -1191,7 +1289,7 @@ export default function Portfolio() {
                 <div
                   style={{
                     fontSize: 12,
-                    color: "#4a5568",
+                    color: t.textFaint,
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
                     marginBottom: 6,
@@ -1203,13 +1301,13 @@ export default function Portfolio() {
                   style={{
                     fontSize: 15,
                     fontWeight: 600,
-                    color: "#e2e8f0",
+                    color: t.text,
                     marginBottom: 2,
                   }}
                 >
                   Master of Computer Applications (MCA)
                 </div>
-                <div style={{ fontSize: 12, color: "#63b3ed" }}>
+                <div style={{ fontSize: 12, color: t.accent }}>
                   SASTRA Deemed University · 2004 – 2006 · 76%
                 </div>
               </div>
@@ -1217,7 +1315,7 @@ export default function Portfolio() {
                 <div
                   style={{
                     fontSize: 12,
-                    color: "#4a5568",
+                    color: t.textFaint,
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
                     marginBottom: 6,
@@ -1225,12 +1323,10 @@ export default function Portfolio() {
                 >
                   Awards
                 </div>
-                <div
-                  style={{ fontSize: 13, color: "#e2e8f0", marginBottom: 2 }}
-                >
+                <div style={{ fontSize: 13, color: t.text, marginBottom: 2 }}>
                   ⭐ Star of the Month – June 2021
                 </div>
-                <div style={{ fontSize: 13, color: "#e2e8f0" }}>
+                <div style={{ fontSize: 13, color: t.text }}>
                   🏆 O Infinity, Achievers' League – June 2023
                 </div>
               </div>
@@ -1239,14 +1335,15 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* CONTACT */}
+      {/* ── CONTACT ── */}
       <section
         id="contact"
         style={{
           padding: "100px 24px 60px",
-          background: "#0d1117",
+          background: t.bg2,
           position: "relative",
           overflow: "hidden",
+          transition: "background 0.3s",
         }}
       >
         <div
@@ -1258,8 +1355,7 @@ export default function Portfolio() {
             width: 600,
             height: 600,
             borderRadius: "50%",
-            background:
-              "radial-gradient(circle, rgba(99,179,237,0.04) 0%, transparent 70%)",
+            background: `radial-gradient(circle, rgba(${t.accentRgb},0.04) 0%, transparent 70%)`,
             pointerEvents: "none",
           }}
         />
@@ -1273,7 +1369,7 @@ export default function Portfolio() {
                 fontFamily: "'Syne', sans-serif",
                 fontWeight: 800,
                 fontSize: "clamp(32px, 5vw, 64px)",
-                color: "#fff",
+                color: t.text,
                 marginBottom: 16,
                 letterSpacing: "-0.03em",
               }}
@@ -1283,7 +1379,7 @@ export default function Portfolio() {
             <p
               style={{
                 fontSize: 15,
-                color: "#718096",
+                color: t.textMuted,
                 lineHeight: 1.8,
                 marginBottom: 48,
               }}
@@ -1303,6 +1399,7 @@ export default function Portfolio() {
                 marginBottom: 48,
               }}
             >
+              {/* Email */}
               <a
                 href="mailto:dhayalan.ijk@gmail.com"
                 style={{
@@ -1311,23 +1408,24 @@ export default function Portfolio() {
                   gap: 10,
                   padding: "14px 26px",
                   borderRadius: 10,
-                  background: "rgba(99,179,237,0.1)",
-                  border: "1px solid rgba(99,179,237,0.3)",
-                  color: "#63b3ed",
+                  background: `rgba(${t.accentRgb},0.1)`,
+                  border: `1px solid rgba(${t.accentRgb},0.3)`,
+                  color: t.accent,
                   textDecoration: "none",
                   fontSize: 14,
                   fontFamily: "'JetBrains Mono', monospace",
                   transition: "all 0.2s",
                 }}
                 onMouseOver={(e) =>
-                  (e.currentTarget.style.background = "rgba(99,179,237,0.2)")
+                  (e.currentTarget.style.background = `rgba(${t.accentRgb},0.2)`)
                 }
                 onMouseOut={(e) =>
-                  (e.currentTarget.style.background = "rgba(99,179,237,0.1)")
+                  (e.currentTarget.style.background = `rgba(${t.accentRgb},0.1)`)
                 }
               >
                 <Mail size={16} /> dhayalan.ijk@gmail.com
               </a>
+              {/* Phone */}
               <a
                 href="tel:+919344626897"
                 style={{
@@ -1336,23 +1434,54 @@ export default function Portfolio() {
                   gap: 10,
                   padding: "14px 26px",
                   borderRadius: 10,
-                  background: "rgba(29,161,242,0.1)",
-                  border: "1px solid rgba(29,161,242,0.3)",
-                  color: "#1da1f2",
+                  background: isDark
+                    ? "rgba(255,255,255,0.04)"
+                    : "rgba(0,0,0,0.04)",
+                  border: `1px solid ${t.border}`,
+                  color: t.textMuted,
                   textDecoration: "none",
                   fontSize: 14,
                   fontFamily: "'JetBrains Mono', monospace",
                   transition: "all 0.2s",
                 }}
                 onMouseOver={(e) =>
-                  (e.currentTarget.style.borderColor = "#63b3ed")
+                  (e.currentTarget.style.borderColor = t.accent)
                 }
                 onMouseOut={(e) =>
-                  (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")
+                  (e.currentTarget.style.borderColor = t.border)
                 }
               >
                 <Phone size={16} /> +91 93446 26897
               </a>
+              {/* LinkedIn */}
+              <a
+                href="https://linkedin.com/in/dhayalan-karunakaran"
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  padding: "14px 26px",
+                  borderRadius: 10,
+                  background: "rgba(10,102,194,0.1)",
+                  border: "1px solid rgba(10,102,194,0.3)",
+                  color: "#0a66c2",
+                  textDecoration: "none",
+                  fontSize: 14,
+                  fontFamily: "'JetBrains Mono', monospace",
+                  transition: "all 0.2s",
+                }}
+                onMouseOver={(e) =>
+                  (e.currentTarget.style.background = "rgba(10,102,194,0.2)")
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.style.background = "rgba(10,102,194,0.1)")
+                }
+              >
+                <Linkedin size={16} /> dhayalan-karunakaran
+              </a>
+              {/* Twitter */}
               <a
                 href="https://twitter.com/Dhayalan"
                 target="_blank"
@@ -1380,33 +1509,6 @@ export default function Portfolio() {
               >
                 <Twitter size={16} /> @Dhayalan
               </a>
-              <a
-                href="https://linkedin.com/in/dhayalan-karunakaran"
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "14px 26px",
-                  borderRadius: 10,
-                  background: "rgba(29,161,242,0.1)",
-                  border: "1px solid rgba(29,161,242,0.3)",
-                  color: "#1da1f2",
-                  textDecoration: "none",
-                  fontSize: 14,
-                  fontFamily: "'JetBrains Mono', monospace",
-                  transition: "all 0.2s",
-                }}
-                onMouseOver={(e) =>
-                  (e.currentTarget.style.background = "rgba(10,102,194,0.2)")
-                }
-                onMouseOut={(e) =>
-                  (e.currentTarget.style.background = "rgba(10,102,194,0.1)")
-                }
-              >
-                <Linkedin size={16} /> dhayalan-karunakaran
-              </a>
             </div>
           </FadeIn>
           <FadeIn delay={0.3}>
@@ -1416,7 +1518,7 @@ export default function Portfolio() {
                 justifyContent: "center",
                 alignItems: "center",
                 gap: 8,
-                color: "#4a5568",
+                color: t.textFaint,
                 fontSize: 13,
               }}
             >
@@ -1424,12 +1526,14 @@ export default function Portfolio() {
             </div>
           </FadeIn>
         </div>
+
+        {/* Footer bar */}
         <div
           style={{
             maxWidth: 1200,
             margin: "60px auto 0",
             paddingTop: 32,
-            borderTop: "1px solid rgba(255,255,255,0.06)",
+            borderTop: `1px solid ${t.border}`,
             display: "flex",
             justifyContent: "space-between",
             flexWrap: "wrap",
@@ -1439,7 +1543,7 @@ export default function Portfolio() {
           <span
             style={{
               fontSize: 12,
-              color: "#2d3748",
+              color: t.footerTxt,
               fontFamily: "'JetBrains Mono', monospace",
             }}
           >
@@ -1448,11 +1552,11 @@ export default function Portfolio() {
           <span
             style={{
               fontSize: 12,
-              color: "#2d3748",
+              color: t.footerTxt,
               fontFamily: "'JetBrains Mono', monospace",
             }}
           >
-            Full Stack Rails Engineer · Blockchain Professional
+            Full Stack & Blockchain Engineer · Tech Lead
           </span>
         </div>
       </section>
